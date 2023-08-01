@@ -1,9 +1,10 @@
 import './globals.css'
+import { Home } from './pages/Home'
 
 function App() {
   return (
     <>
-      <p>Mapper Brazil</p>
+      <Home />
     </>
   )
 }

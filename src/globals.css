@@ -23,7 +23,7 @@
     }
 
     body::-webkit-scrollbar-thumb {
-        background: #63D391;
+        background: #3E4958;
     }
 
     body,
@@ -31,7 +31,7 @@
     textarea,
     button {
         font-family: 'Roboto', sans-serif;
-        color: #205266;
+        color: #3E4958;
         font-weight: 400;
     }
 

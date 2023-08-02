@@ -10,6 +10,8 @@ import {
   useState,
 } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import marker from '@/assets/marker.svg'
+import L from 'leaflet'
 
 interface MapProps extends ComponentProps<'div'> {
   points: PointsProps[]
@@ -19,6 +21,13 @@ interface MapProps extends ComponentProps<'div'> {
     React.SetStateAction<CoordsProps | undefined>
   >
 }
+
+const markerIcon = new L.Icon({
+  iconUrl: marker,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+})
 
 export function Map({
   points,
@@ -86,6 +95,7 @@ export function Map({
           ref={(ref) => (markerRefs[index] = ref)}
           position={[point.properties.latitude, point.properties.longitude]}
           key={index}
+          icon={markerIcon}
           eventHandlers={{
             click: () => {
               setSelectedPoint({

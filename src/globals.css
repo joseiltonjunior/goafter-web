@@ -14,7 +14,7 @@
     }
 
     body {
-        background-color: #F0F4F5;
+        background-color: #202022;
         -webkit-font-smoothing: antialiased;
     }
 
@@ -30,9 +30,15 @@
     input,
     textarea,
     button {
-        font-family: 'Roboto', sans-serif;
-        color: #3E4958;
+        font-family: 'Baloo 2', sans-serif;
+        color: #eee;
         font-weight: 400;
     }
 
+}
+
+@layer components {
+    .custom-marker-icon {
+        @apply rounded-full overflow-hidden border-2 border-gray-500
+    }
 }

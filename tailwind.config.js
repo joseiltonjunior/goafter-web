@@ -7,8 +7,24 @@ export default {
       base: { min: '899px' },
     },
     colors: {
+      red: {
+        500: '#e3342f',
+      },
+      yellow: {
+        500: '#fedc3d',
+      },
+      gray: {
+        200: '#F0F4F5',
+        300: '#C6D5DB',
+        500: '#2E2E35',
+        700: '#312e38',
+        950: '#202022',
+      },
+      orange: {
+        500: '#FFBA00',
+      },
       blue: {
-        400: '#5E81F4',
+        500: '#38B6FF',
       },
     },
     extend: {},

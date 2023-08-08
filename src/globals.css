@@ -41,4 +41,19 @@
     .custom-marker-icon {
         @apply rounded-full overflow-hidden border-2 border-gray-500
     }
+
+    .custom-scroll-bar {
+        scrollbar-width: thin;
+        scrollbar-color: #F0F4F5 transparent;
+        overflow-y: scroll;
+    }
+
+
+    .custom-scroll-bar::-webkit-scrollbar {
+        width: 0.4rem;
+    }
+
+    .custom-scroll-bar::-webkit-scrollbar-thumb {
+        background: #F0F4F5;
+    }
 }

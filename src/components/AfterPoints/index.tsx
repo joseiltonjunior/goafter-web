@@ -1,59 +1,71 @@
-import { CoordsProps } from '@/types/points'
-
 import starIcon from '@/assets/star.svg'
 import { AfterProps } from '@/types/after'
+import { useState } from 'react'
 
 interface AfterPointsProps {
   afters: AfterProps[]
-  setSelectedPoint: React.Dispatch<
-    React.SetStateAction<CoordsProps | undefined>
-  >
+  setSelectedPoint: React.Dispatch<React.SetStateAction<AfterProps | undefined>>
 }
 
 export function AfterPoints({ afters, setSelectedPoint }: AfterPointsProps) {
+  const [selected, setSelected] = useState<number | null>()
+
   return (
-    <div className="base:overflow-y-scroll base:max-h-[calc(100vh-290px)] p-2 mt-4 flex flex-col gap-4">
+    <div className="base:overflow-y-scroll base:max-h-[calc(100vh-270px)] mt-4 base:pr-4 flex flex-col gap-4 base:custom-scroll-bar">
       {afters.map((after, index) => (
-        <button
-          onClick={() => {
-            setSelectedPoint({
-              latitude: after.coords.latitude,
-              longitude: after.coords.longitude,
-            })
-          }}
-          key={index}
-        >
-          <div className="rounded-2xl bg-gray-500 shadow-md grid grid-cols-[300px,auto] md:grid-cols-1 h-fit hover:bg-gray-500/80 overflow-hidden">
+        <div key={index}>
+          <div
+            className={`rounded-2xl bg-gray-500 shadow-md grid grid-cols-[300px,auto] md:grid-cols-1  hover:bg-gray-500/80 overflow-hidden h-auto  ${
+              selected === index && 'border-2 border-gray-200'
+            }`}
+          >
             <img
               src={after.picsUrl[0]}
               alt="pic after"
-              className="w-full object-cover h-full"
+              className="w-full object-cover h-60"
             />
-            <div className="p-4">
-              <p className="font-bold text-lg text-left">
-                {after.name} - {after.type}
-              </p>
+            <div className="p-4 flex flex-col justify-between">
+              <div>
+                <p className="font-bold text-lg text-left">{after.name}</p>
 
-              <div className="flex">
-                <img src={starIcon} alt="star icon" />
-                <p className="text-sm">{after.stars}</p>
-              </div>
-              <p className="text-sm text-left mt-4">{after.description}</p>
-
-              <p className="text-left text-sm mt-2">Endereço: {after.locale}</p>
-
-              <p className="text-sm text-left mt-2">Telefone: {after.phone}</p>
-
-              <p className="text-sm text-left mt-2">Horários: </p>
-              {after.schedules.map((schedule) => (
-                <div key={schedule.name} className="flex justify-between">
-                  <p className="text-sm text-left">{schedule.name}</p>
-                  <p>{schedule.value}</p>
+                <div className="flex items-center">
+                  <img src={starIcon} alt="star icon" />
+                  <strong className="text-sm">{after.stars}</strong>
+                  <span className="ml-1">{`(${after.indicator})`}</span>
                 </div>
-              ))}
+                <p className="text-sm text-left mt-4">{after.description}</p>
+              </div>
+
+              <div className="mt-4 md:hidden">
+                {selected === index ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setSelected(null)
+                        setSelectedPoint(undefined)
+                      }}
+                      className="bg-red-500 text-gray-200 font-bold w-full rounded-md py-2"
+                    >
+                      Menos informação
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        setSelected(index)
+                        setSelectedPoint(after)
+                      }}
+                      className="bg-gray-200 text-gray-500 font-bold w-full rounded-md py-2"
+                    >
+                      Mais informações
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </button>
+        </div>
       ))}
     </div>
   )

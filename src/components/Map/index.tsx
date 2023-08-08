@@ -16,11 +16,9 @@ import { CoordsProps } from '@/types/points'
 
 interface MapProps extends ComponentProps<'div'> {
   afters: AfterProps[]
-  userLocation: CoordsProps | null
-  selectLocation?: CoordsProps
-  setSelectedPoint: React.Dispatch<
-    React.SetStateAction<CoordsProps | undefined>
-  >
+  userLocation?: CoordsProps | null
+  selectLocation?: AfterProps
+  setSelectedPoint: React.Dispatch<React.SetStateAction<AfterProps | undefined>>
 }
 
 export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
@@ -62,11 +60,14 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
 
   useEffect(() => {
     if (selectLocation) {
-      focusMarker(selectLocation.latitude, selectLocation.longitude)
+      focusMarker(
+        selectLocation.coords.latitude,
+        selectLocation.coords.longitude,
+      )
       const index = afters.findIndex(
         (after) =>
-          after.coords.latitude === selectLocation.latitude &&
-          after.coords.longitude === selectLocation.longitude,
+          after.coords.latitude === selectLocation.coords.latitude &&
+          after.coords.longitude === selectLocation.coords.longitude,
       )
       setSelectedMarkerIndex(index !== -1 ? index : null)
     }
@@ -77,7 +78,7 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
       ref={mapRef}
       center={[-8.063169, -34.871139]}
       zoom={12}
-      style={{ width: '100%', height: '100%' }}
+      className="rounded-2xl overflow-hidden max-h-[417px]"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -93,10 +94,7 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
           icon={markerIcon(after.logoUrl)}
           eventHandlers={{
             click: () => {
-              setSelectedPoint({
-                latitude: after.coords.latitude,
-                longitude: after.coords.longitude,
-              })
+              setSelectedPoint(after)
               setSelectedMarkerIndex(index)
               focusMarker(after.coords.latitude, after.coords.longitude)
             },
@@ -104,6 +102,7 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
         >
           <Popup>
             <p className="font-bold text-base">{after.name}</p>
+            <p className="">{after.locale}</p>
           </Popup>
         </Marker>
       ))}

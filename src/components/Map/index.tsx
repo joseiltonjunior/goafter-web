@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'leaflet/dist/leaflet.css'
+
 import {
   ComponentProps,
   useCallback,
@@ -10,9 +10,9 @@ import {
 } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
-import L from 'leaflet'
 import { AfterProps } from '@/types/after'
 import { CoordsProps } from '@/types/points'
+import { markerIcon } from '@/utils/markerCustomIcon'
 
 interface MapProps extends ComponentProps<'div'> {
   afters: AfterProps[]
@@ -31,16 +31,6 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
   const [selectedMarkerIndex, setSelectedMarkerIndex] = useState<number | null>(
     null,
   )
-
-  function markerIcon(icon: string) {
-    return new L.Icon({
-      iconUrl: icon,
-      iconSize: [45, 45],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32],
-      className: 'custom-marker-icon',
-    })
-  }
 
   const focusMarker = useCallback(
     (lat: number, lng: number) => {
@@ -70,14 +60,24 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
           after.coords.longitude === selectLocation.coords.longitude,
       )
       setSelectedMarkerIndex(index !== -1 ? index : null)
+    } else {
+      if (mapRef.current) {
+        mapRef.current.flyTo([-8.063169, -34.871139], 11)
+
+        const marker = markerRefs[selectedMarkerIndex!]
+
+        if (marker) {
+          marker.closePopup()
+        }
+      }
     }
-  }, [focusMarker, afters, selectLocation])
+  }, [focusMarker, afters, selectLocation, markerRefs, selectedMarkerIndex])
 
   return (
     <MapContainer
       ref={mapRef}
       center={[-8.063169, -34.871139]}
-      zoom={12}
+      zoom={11}
       className="rounded-2xl overflow-hidden max-h-[417px]"
     >
       <TileLayer

@@ -1,14 +1,14 @@
-<h3><strong>GoAfter - Mapper</strong></h3>
+<h3><strong>GoAfter - Web</strong></h3>
 
-<p>Conheça o GoAfter Mapper, o seu guia definitivo dos melhores eventos em Pernambuco! Se você já se perguntou onde encontrar o after perfeito, mas está sem ideias, não se preocupe. O GoAfter Mapper está aqui para ajudar!
+<p>Conheça o GoAfter, o seu guia definitivo dos melhores eventos em Pernambuco! Se você já se perguntou onde encontrar o after perfeito, mas está sem ideias, não se preocupe. O GoAfter está aqui para ajudar!
 
-Descubra os roles mais incríveis do estado e escolha aquele que combina perfeitamente com você. Com o GoAfter Mapper, você terá acesso aos melhores after parties, garantindo uma noite memorável e cheia de diversão.
+Descubra os roles mais incríveis do estado e escolha aquele que combina perfeitamente com você. Com o GoAfter, você terá acesso aos melhores after parties, garantindo uma noite memorável e cheia de diversão.
 
-Não deixe mais a dúvida atrapalhar seus planos, abra o GoAfter Mapper e encontre o after ideal para continuar a festa. Vamos lá, a diversão está te esperando!</p>
+Não deixe mais a dúvida atrapalhar seus planos, abra o GoAfter e encontre o after ideal para continuar a festa. Vamos lá, a diversão está te esperando!</p>
 
 
-  <img src="https://i.ibb.co/JHkPc68/Captura-de-tela-de-2023-08-05-20-07-31.png" alt="" border="0">
-  <img src="https://i.ibb.co/wSMhZR4/Captura-de-tela-de-2023-08-05-20-07-16.png" alt="" border="0">
+  <img src="https://i.ibb.co/58nv1m3/Captura-de-tela-de-2023-08-09-11-16-56.png" alt="" border="0">
+  
 
 
 <h3><strong>In your terminal</strong></h3>

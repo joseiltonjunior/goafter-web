@@ -1,6 +1,7 @@
 import starIcon from '@/assets/star.svg'
 import { AfterProps } from '@/types/after'
 import { useState } from 'react'
+import { useKeenSlider } from 'keen-slider/react'
 
 interface AfterPointsProps {
   afters: AfterProps[]
@@ -9,6 +10,10 @@ interface AfterPointsProps {
 
 export function AfterPoints({ afters, setSelectedPoint }: AfterPointsProps) {
   const [selected, setSelected] = useState<number | null>()
+
+  const [sliderRef] = useKeenSlider({
+    loop: true,
+  })
 
   return (
     <div className="base:overflow-y-scroll base:max-h-[calc(100vh-270px)] mt-4 base:pr-4 flex flex-col gap-4 base:custom-scroll-bar">
@@ -19,11 +24,17 @@ export function AfterPoints({ afters, setSelectedPoint }: AfterPointsProps) {
               selected === index && 'border-2 border-gray-200'
             }`}
           >
-            <img
-              src={after.picsUrl[0]}
-              alt="pic after"
-              className="w-full object-cover h-60"
-            />
+            <div ref={sliderRef} className="keen-slider">
+              {after.picsUrl.map((picUrl, index) => (
+                <img
+                  key={index}
+                  src={picUrl}
+                  alt="pic after"
+                  className="w-full object-cover h-60 keen-slider__slide"
+                />
+              ))}
+            </div>
+
             <div className="p-4 flex flex-col justify-between">
               <div>
                 <p className="font-bold text-lg text-left">{after.name}</p>

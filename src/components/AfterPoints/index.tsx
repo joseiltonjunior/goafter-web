@@ -6,11 +6,16 @@ import { CarouselPics } from './CarouselPics'
 interface AfterPointsProps {
   afters: AfterProps[]
   setSelectedPoint: React.Dispatch<React.SetStateAction<AfterProps | undefined>>
+  selectLocation?: AfterProps
 }
 
-export function AfterPoints({ afters, setSelectedPoint }: AfterPointsProps) {
+export function AfterPoints({
+  afters,
+  setSelectedPoint,
+  selectLocation,
+}: AfterPointsProps) {
   return (
-    <div className="base:overflow-y-scroll base:max-h-[calc(100vh-270px)] mt-4 flex flex-col gap-4 base:custom-scroll-bar pr-2">
+    <div className="base:overflow-y-scroll base:max-h-[calc(100vh-270px)] mt-4 flex flex-col gap-4 base:custom-scroll-bar pr-2 md:pr-0">
       {afters.map((after, index) => (
         <div key={index} className="bg-gray-500 h-fit rounded-2xl">
           <CarouselPics pics={after.picsUrl} />
@@ -39,14 +44,25 @@ export function AfterPoints({ afters, setSelectedPoint }: AfterPointsProps) {
               >
                 Mais detalhes
               </button>
-              <button
-                onClick={() => {
-                  setSelectedPoint(after)
-                }}
-                className="bg-gray-200 hover:bg-gray-200/80 text-gray-500 font-bold w-full rounded-md py-2"
-              >
-                Mostrar no mapa
-              </button>
+              {selectLocation?.name === after.name ? (
+                <button
+                  onClick={() => {
+                    setSelectedPoint(undefined)
+                  }}
+                  className="bg-red-500 hover:bg-red-500/80 text-gray-200 font-bold w-full rounded-md py-2"
+                >
+                  Mostrar menos
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setSelectedPoint(after)
+                  }}
+                  className="bg-gray-200 hover:bg-gray-200/80 text-gray-500 font-bold w-full rounded-md py-2"
+                >
+                  Mostrar no mapa
+                </button>
+              )}
             </div>
           </div>
         </div>

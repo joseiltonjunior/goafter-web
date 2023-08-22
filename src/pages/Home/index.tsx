@@ -4,6 +4,7 @@ import { Map } from '@/components/Map'
 import { useToast } from '@/hooks/useToast'
 import { firestore } from '@/services/firebase'
 import { AfterProps } from '@/types/after'
+import { CoordsProps } from '@/types/points'
 
 // import { formatPhone } from '@/utils/formatPhone'
 
@@ -14,6 +15,7 @@ export function Home() {
   const [afters, setAfters] = useState<AfterProps[]>([])
   const [selectedPoint, setSelectedPoint] = useState<AfterProps>()
   const [aftersFiltered, setAftersFiltered] = useState<AfterProps[]>([])
+  const [userLocation, setUserLocation] = useState<CoordsProps | null>(null)
 
   const { showToast } = useToast()
 
@@ -45,7 +47,7 @@ export function Home() {
       .catch(() => {
         showToast('Error while fetching sales', {
           type: 'error',
-          theme: 'colored',
+          theme: 'light',
         })
       })
   }, [showToast])
@@ -61,9 +63,28 @@ export function Home() {
     setAftersFiltered(afters)
   }
 
+  const handleGetUserLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords
+        setUserLocation({ latitude, longitude })
+      },
+      () => {
+        showToast(
+          'Não foi possível obter a localização atual. Algumas funcionalidades encontram-se desativadas.',
+          {
+            type: 'error',
+            theme: 'light',
+          },
+        )
+      },
+    )
+  }, [showToast])
+
   useEffect(() => {
+    handleGetUserLocation()
     handleFetchAfters()
-  }, [handleFetchAfters])
+  }, [handleFetchAfters, handleGetUserLocation])
 
   return (
     <div className="p-8 max-w-[1400px] h-full ml-auto mr-auto grid grid-cols-[500px,auto] md:grid-cols-1  md:px-4 base:gap-16">
@@ -83,6 +104,7 @@ export function Home() {
           <AfterPoints
             afters={aftersFiltered}
             setSelectedPoint={setSelectedPoint}
+            selectLocation={selectedPoint}
           />
         </div>
       </div>
@@ -95,6 +117,7 @@ export function Home() {
             afters={afters}
             selectLocation={selectedPoint}
             setSelectedPoint={setSelectedPoint}
+            userLocation={userLocation}
           />
 
           {/* {selectedPoint && (

@@ -5,7 +5,7 @@ import { useToast } from '@/hooks/useToast'
 import { firestore } from '@/services/firebase'
 import { AfterProps } from '@/types/after'
 
-import { formatPhone } from '@/utils/formatPhone'
+// import { formatPhone } from '@/utils/formatPhone'
 
 import { collection, getDocs, query } from 'firebase/firestore'
 import { useCallback, useEffect, useState } from 'react'
@@ -66,7 +66,7 @@ export function Home() {
   }, [handleFetchAfters])
 
   return (
-    <div className="p-8 max-w-[1400px] ml-auto mr-auto grid grid-cols-[auto,550px] md:grid-cols-1  md:px-4 base:gap-16">
+    <div className="p-8 max-w-[1400px] h-full ml-auto mr-auto grid grid-cols-[500px,auto] md:grid-cols-1  md:px-4 base:gap-16">
       <div>
         <div className="max-w-md">
           <Input
@@ -77,7 +77,7 @@ export function Home() {
         </div>
 
         <div className="mt-8 md:mb-4">
-          <p>{aftersFiltered.length} Items</p>
+          <p>{aftersFiltered.length} afters encontrados</p>
           <h1 className="font-bold text-2xl">Onde é o After?</h1>
 
           <AfterPoints
@@ -89,7 +89,7 @@ export function Home() {
       {afters.length > 0 && (
         <div
           data-selected={!!selectedPoint}
-          className="rounded-2xl overflow-hidden grid grid-rows-1 gap-4 data-[selected=true]:grid-rows-2 md:hidden"
+          className="rounded-2xl overflow-hidden grid grid-rows-1 gap-4 md:hidden"
         >
           <Map
             afters={afters}
@@ -97,10 +97,11 @@ export function Home() {
             setSelectedPoint={setSelectedPoint}
           />
 
-          {selectedPoint && (
+          {/* {selectedPoint && (
             <div className="bg-gray-500 h-fit rounded-2xl overflow-hidden p-4">
               <>
-                <p className="font-bold">Horários: </p>
+                <p className="font-bold">{selectedPoint.description}</p>
+                <p className="font-bold mt-2">Horários: </p>
                 {selectedPoint.schedules.map((schedule) => (
                   <div key={schedule.name} className="flex justify-between">
                     <p className="text-sm text-left">{schedule.name}</p>
@@ -114,7 +115,7 @@ export function Home() {
                 </div>
               </>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </div>

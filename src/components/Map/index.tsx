@@ -78,7 +78,7 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
       ref={mapRef}
       center={[-8.063169, -34.871139]}
       zoom={11}
-      className="rounded-2xl overflow-hidden max-h-[417px]"
+      className="rounded-2xl overflow-hidden max-h-[417px] base:max-h-[550px]"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

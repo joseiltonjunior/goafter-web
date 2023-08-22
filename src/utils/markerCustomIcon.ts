@@ -9,3 +9,12 @@ export function markerIcon(icon: string) {
     className: 'custom-marker-icon',
   })
 }
+
+export function userMarkerIcon(icon: string) {
+  return new L.Icon({
+    iconUrl: icon,
+    iconSize: [60, 60],
+    // iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  })
+}

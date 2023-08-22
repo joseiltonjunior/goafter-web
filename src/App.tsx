@@ -5,7 +5,7 @@ import { Home } from './pages/Home'
 
 function App() {
   return (
-    <div className="h-screen">
+    <div className="h-[calc(100vh-70px)]">
       <Header />
 
       <Home />

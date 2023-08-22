@@ -12,7 +12,10 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import { AfterProps } from '@/types/after'
 import { CoordsProps } from '@/types/points'
-import { markerIcon } from '@/utils/markerCustomIcon'
+import { markerIcon, userMarkerIcon } from '@/utils/markerCustomIcon'
+import { calculateDistance } from '@/utils/calculateDistance'
+import { formatDistance } from '@/utils/formatDistance'
+import userMarker from '@/assets/user-point.png'
 
 interface MapProps extends ComponentProps<'div'> {
   afters: AfterProps[]
@@ -21,7 +24,12 @@ interface MapProps extends ComponentProps<'div'> {
   setSelectedPoint: React.Dispatch<React.SetStateAction<AfterProps | undefined>>
 }
 
-export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
+export function Map({
+  afters,
+  selectLocation,
+  setSelectedPoint,
+  userLocation,
+}: MapProps) {
   const mapRef = useRef<any>(null)
 
   const markerRefs = useMemo(() => {
@@ -76,9 +84,13 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
   return (
     <MapContainer
       ref={mapRef}
-      center={[-8.063169, -34.871139]}
+      center={
+        userLocation
+          ? [userLocation?.latitude, userLocation?.longitude]
+          : [-8.063169, -34.871139]
+      }
       zoom={11}
-      className="rounded-2xl overflow-hidden max-h-[417px]"
+      className="rounded-2xl overflow-hidden max-h-[417px] base:max-h-[550px]"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -86,6 +98,16 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
           import.meta.env.VITE_MAPBOX_TOKEN
         }`}
       />
+      {userLocation && (
+        <Marker
+          position={[userLocation.latitude, userLocation.longitude]}
+          icon={userMarkerIcon(userMarker)}
+        >
+          <Popup>
+            <p className="font-bold text-base">Minha localização atual</p>
+          </Popup>
+        </Marker>
+      )}
       {afters.map((after, index) => (
         <Marker
           ref={(ref) => (markerRefs[index] = ref)}
@@ -100,9 +122,28 @@ export function Map({ afters, selectLocation, setSelectedPoint }: MapProps) {
             },
           }}
         >
-          <Popup>
-            <p className="font-bold text-base">{after.name}</p>
-            <p className="">{after.locale}</p>
+          <Popup
+            eventHandlers={{
+              click: () => {
+                console.log('ok')
+              },
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <p className="font-bold text-base">{after.name}</p>
+              {userLocation && (
+                <p className="font-bold text-base">
+                  {' - '}
+                  {formatDistance(
+                    calculateDistance({
+                      actualCoords: userLocation,
+                      afterCoords: after.coords,
+                    }),
+                  )}
+                </p>
+              )}
+            </div>
+            <span>{after.locale}</span>
           </Popup>
         </Marker>
       ))}

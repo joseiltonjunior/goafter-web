@@ -122,13 +122,7 @@ export function Map({
             },
           }}
         >
-          <Popup
-            eventHandlers={{
-              click: () => {
-                console.log('ok')
-              },
-            }}
-          >
+          <Popup>
             <div className="flex items-center gap-2">
               <p className="font-bold text-base">{after.name}</p>
               {userLocation && (

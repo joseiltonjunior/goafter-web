@@ -10,16 +10,20 @@ import { CoordsProps } from '@/types/points'
 
 import { collection, getDocs, query } from 'firebase/firestore'
 import { useCallback, useEffect, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
+// import { useNavigate } from 'react-router-dom'
 
 export function Home() {
   const [afters, setAfters] = useState<AfterProps[]>([])
   const [selectedPoint, setSelectedPoint] = useState<AfterProps>()
   const [aftersFiltered, setAftersFiltered] = useState<AfterProps[]>([])
   const [userLocation, setUserLocation] = useState<CoordsProps | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const { showToast } = useToast()
 
   const handleFetchAfters = useCallback(() => {
+    setIsLoading(true)
     const q = query(collection(firestore, 'afters'))
     getDocs(q)
       .then((querySnapshot) => {
@@ -38,6 +42,7 @@ export function Home() {
               type: doc.data().type,
               recommendation: doc.data().recommendation,
               schedules: doc.data().schedules,
+              id: doc.id,
             }) as AfterProps,
         )
 
@@ -50,6 +55,7 @@ export function Home() {
           theme: 'light',
         })
       })
+      .finally(() => setIsLoading(false))
   }, [showToast])
 
   function handleFilterPoints(text: string) {
@@ -87,28 +93,44 @@ export function Home() {
   }, [handleFetchAfters, handleGetUserLocation])
 
   return (
-    <div className="p-8 max-w-[1400px] h-full ml-auto mr-auto grid grid-cols-[500px,auto] md:grid-cols-1  md:px-4 base:gap-16">
+    <div className="p-8 ml-auto mr-auto grid grid-cols-[500px,auto] md:grid-cols-1  md:px-4 base:gap-16">
       <div>
         <div className="max-w-md">
-          <Input
-            onChange={(e) => {
-              handleFilterPoints(e.target.value)
-            }}
-          />
+          {isLoading ? (
+            <Skeleton height={40} borderRadius={8} />
+          ) : (
+            <Input
+              onChange={(e) => {
+                handleFilterPoints(e.target.value)
+              }}
+            />
+          )}
         </div>
 
         <div className="mt-8 md:mb-4">
-          <p>{aftersFiltered.length} afters encontrados</p>
-          <h1 className="font-bold text-2xl">Onde é o After?</h1>
-
-          <AfterPoints
-            afters={aftersFiltered}
-            setSelectedPoint={setSelectedPoint}
-            selectLocation={selectedPoint}
-          />
+          {isLoading ? (
+            <>
+              <Skeleton width={140} height={16} />
+              <Skeleton width={180} height={24} />
+              <Skeleton height={400} borderRadius={16} className="mt-8" />
+              <Skeleton height={400} borderRadius={16} className="mt-4" />
+            </>
+          ) : (
+            <>
+              <p>{aftersFiltered.length} afters encontrados</p>
+              <h1 className="font-bold text-2xl">Onde é o After?</h1>
+              <AfterPoints
+                afters={aftersFiltered}
+                setSelectedPoint={setSelectedPoint}
+                selectLocation={selectedPoint}
+              />
+            </>
+          )}
         </div>
       </div>
-      {afters.length > 0 && (
+      {isLoading ? (
+        <Skeleton height={500} borderRadius={16} />
+      ) : (
         <div
           data-selected={!!selectedPoint}
           className="rounded-2xl overflow-hidden grid grid-rows-1 gap-4 md:hidden"
@@ -119,26 +141,6 @@ export function Home() {
             setSelectedPoint={setSelectedPoint}
             userLocation={userLocation}
           />
-
-          {/* {selectedPoint && (
-            <div className="bg-gray-500 h-fit rounded-2xl overflow-hidden p-4">
-              <>
-                <p className="font-bold">{selectedPoint.description}</p>
-                <p className="font-bold mt-2">Horários: </p>
-                {selectedPoint.schedules.map((schedule) => (
-                  <div key={schedule.name} className="flex justify-between">
-                    <p className="text-sm text-left">{schedule.name}</p>
-                    <p>{schedule.value}</p>
-                  </div>
-                ))}
-
-                <div className="flex gap-2 mt-4 justify-between">
-                  <p className="font-bold">Telefone:</p>
-                  <p>{formatPhone(selectedPoint.phone)}</p>
-                </div>
-              </>
-            </div>
-          )} */}
         </div>
       )}
     </div>

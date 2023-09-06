@@ -21,7 +21,9 @@ interface MapProps extends ComponentProps<'div'> {
   afters: AfterProps[]
   userLocation?: CoordsProps | null
   selectLocation?: AfterProps
-  setSelectedPoint: React.Dispatch<React.SetStateAction<AfterProps | undefined>>
+  setSelectedPoint?: React.Dispatch<
+    React.SetStateAction<AfterProps | undefined>
+  >
 }
 
 export function Map({
@@ -90,7 +92,7 @@ export function Map({
           : [-8.063169, -34.871139]
       }
       zoom={11}
-      className="rounded-2xl overflow-hidden max-h-[417px] base:max-h-[550px]"
+      className="rounded-2xl overflow-hidden h-full max-h-[417px] base:max-h-[550px]"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -116,19 +118,15 @@ export function Map({
           icon={markerIcon(after.logoUrl)}
           eventHandlers={{
             click: () => {
-              setSelectedPoint(after)
+              if (setSelectedPoint) {
+                setSelectedPoint(after)
+              }
               setSelectedMarkerIndex(index)
               focusMarker(after.coords.latitude, after.coords.longitude)
             },
           }}
         >
-          <Popup
-            eventHandlers={{
-              click: () => {
-                console.log('ok')
-              },
-            }}
-          >
+          <Popup>
             <div className="flex items-center gap-2">
               <p className="font-bold text-base">{after.name}</p>
               {userLocation && (

@@ -2,6 +2,7 @@ export interface AfterProps {
   locale: string
   name: string
   stars: number
+  id?: string
   logoUrl: string
   picsUrl: string[]
   phone: string

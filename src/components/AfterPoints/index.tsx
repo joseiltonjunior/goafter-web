@@ -5,6 +5,7 @@ import { CarouselPics } from './CarouselPics'
 // import { useModal } from '@/hooks/useModal'
 import { afterPointsStyles } from './styles'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../Button'
 
 interface AfterPointsProps {
   afters: AfterProps[]
@@ -45,34 +46,35 @@ export function AfterPoints({
               </p>
             </div>
 
-            <div className={afterPointsStyles.viewButtons}>
-              <button
+            <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-1">
+              <Button
+                variant="dark"
                 onClick={() => {
                   navigate(`/details?id=${after.id}`)
                 }}
-                className={afterPointsStyles.buttonMore}
               >
                 Mais detalhes
-              </button>
-              {selectLocation?.name === after.name ? (
-                <button
-                  onClick={() => {
-                    setSelectedPoint(undefined)
-                  }}
-                  className={afterPointsStyles.buttonHide}
-                >
-                  Mostrar menos
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setSelectedPoint(after)
-                  }}
-                  className={afterPointsStyles.buttonView}
-                >
-                  Mostrar no mapa
-                </button>
-              )}
+              </Button>
+              <div className="md:hidden">
+                {selectLocation?.name === after.name ? (
+                  <Button
+                    onClick={() => {
+                      setSelectedPoint(undefined)
+                    }}
+                  >
+                    Mostrar menos
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedPoint(after)
+                    }}
+                  >
+                    Mostrar no mapa
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>

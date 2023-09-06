@@ -5,13 +5,24 @@ interface buttonCarouselProps {
 }
 
 export const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 200px auto;
   padding: 2rem;
   gap: 2rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 export const Aside = styled.div`
   height: fit-content;
+
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   img {
     width: 250px;
@@ -21,18 +32,20 @@ export const Aside = styled.div`
 `
 
 export const Content = styled.div`
-  flex-direction: column;
+  padding-bottom: 1rem;
 `
 
 export const Carousel = styled.div`
   display: flex;
   border-radius: 16px;
   overflow: hidden;
+  /* width: 500px; */
   align-items: center;
   height: 500px;
+  /* position: relative; */
 
-  img {
-    object-fit: cover;
+  @media (max-width: 900px) {
+    height: 300px;
   }
 `
 

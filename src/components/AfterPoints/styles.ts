@@ -11,7 +11,7 @@ export const afterPointsStyles = {
   buttonView:
     'bg-gray-200 hover:bg-gray-200/80 text-gray-500 font-bold w-full rounded-md py-2',
   description: 'text-sm text-left mt-4 truncate',
-  viewButtons: 'mt-4 md:hidden flex gap-2',
+  viewButtons: 'mt-4 flex gap-2',
   viewFlex: 'flex items-center',
   textSmall: 'text-sm',
   indicator: 'ml-1',
